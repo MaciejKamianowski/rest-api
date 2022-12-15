@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
+@CrossOrigin("http://localhost:4200/")
 public class FeatureController {
 
     @GetMapping("/status/ping")
@@ -23,8 +24,12 @@ public class FeatureController {
 //        System.out.println(dto);
         String order = dto.get("order").toString();
         boolean isValidOrder = (Objects.equals(order, "ASC") || Objects.equals(order, "DESC"));
+        String[] stringArray = dto.get("numbers").toString().replaceAll(" ", "").split(",");
+        List<Integer> numbers = new ArrayList<Integer>();
 
-        List<Integer> numbers = (ArrayList<Integer>)dto.get("numbers");
+        for (var s : stringArray) {
+            numbers.add(Integer.parseInt(s));
+        }
         if (isValidOrder) {
             if (order.equals("ASC")) {
                 Collections.sort(numbers); //sorting collection
